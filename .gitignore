@@ -8,3 +8,6 @@ venv/
 .env
 *.log
 .pytest_cache/
+*.db
+node_modules/
+frontend/dist/
