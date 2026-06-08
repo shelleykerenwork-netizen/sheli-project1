@@ -1,3 +1,4 @@
+import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
@@ -6,7 +7,7 @@ import SurveyAnalytics from "./pages/SurveyAnalytics";
 import SurveyForm from "./pages/SurveyForm";
 import SurveyDone from "./pages/SurveyDone";
 
-function PrivateRoute({ children }: { children: JSX.Element }) {
+function PrivateRoute({ children }: { children: React.ReactElement }) {
   return localStorage.getItem("token") ? children : <Navigate to="/login" replace />;
 }
 

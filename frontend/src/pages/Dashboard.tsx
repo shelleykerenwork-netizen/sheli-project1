@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
-import { Survey } from "../types";
+import type { Survey } from "../types";
 
 export default function Dashboard() {
   const [surveys, setSurveys] = useState<Survey[]>([]);
@@ -68,7 +68,7 @@ export default function Dashboard() {
                   {survey.response_count} תשובות · {survey.is_anonymous ? "אנונימי" : "מזוהה"} · {new Date(survey.created_at).toLocaleDateString("he-IL")}
                 </p>
                 <div style={s.linkBox}>
-                  <span style={s.linkText}>{baseUrl}/s/{survey.slug}</span>
+                  <a href={`/s/${survey.slug}`} target="_blank" rel="noreferrer" style={s.linkText}>{baseUrl}/s/{survey.slug}</a>
                   <button style={s.btnCopy} onClick={() => navigator.clipboard.writeText(`${baseUrl}/s/${survey.slug}`)}>העתק</button>
                 </div>
                 <div style={s.cardActions}>

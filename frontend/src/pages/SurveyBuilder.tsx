@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
-import { Question, QuestionType } from "../types";
+import type { Question, QuestionType } from "../types";
 
 const TYPE_LABELS: Record<QuestionType, string> = {
   text: "טקסט חופשי", number: "מספר", single_choice: "בחירה יחידה",

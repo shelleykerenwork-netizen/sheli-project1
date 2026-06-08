@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../api";
-import { Survey, AnswerCreate } from "../types";
+import type { Survey, AnswerCreate } from "../types";
 
 export default function SurveyForm() {
   const { slug } = useParams<{ slug: string }>();
