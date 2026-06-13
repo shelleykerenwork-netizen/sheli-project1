@@ -66,6 +66,13 @@ def get_analytics(
         elif question.question_type in ("single_choice", "multiple_choice", "yes_no", "rating"):
             counts = Counter(answer_values)
             q_data["distribution"] = [{"label": k, "count": v} for k, v in counts.most_common()]
+            if question.question_type == "rating":
+                try:
+                    nums = [float(v) for v in answer_values if v is not None]
+                    if nums:
+                        q_data["avg"] = round(sum(nums) / len(nums), 2)
+                except (ValueError, TypeError):
+                    pass
         elif question.question_type == "text":
             q_data["text_answers"] = answer_values
 
