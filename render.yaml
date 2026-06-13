@@ -21,7 +21,6 @@ services:
   - type: web
     name: sheli-surveys-frontend
     env: static
-    region: frankfurt
     plan: free
     buildCommand: cd frontend && npm install && npm run build
     staticPublishPath: frontend/dist
