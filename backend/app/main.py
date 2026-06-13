@@ -32,14 +32,27 @@ def _seed_admin():
     try:
         email = os.getenv("ADMIN_EMAIL", "admin@example.com")
         password = os.getenv("ADMIN_PASSWORD", "changeme")
-        if not db.query(models.User).filter(models.User.email == email).first():
+        print(f"[seed] email={email} db_url={os.getenv('DATABASE_URL','sqlite')[:20]}")
+        existing = db.query(models.User).filter(models.User.email == email).first()
+        if not existing:
             db.add(models.User(email=email, hashed_password=hash_password(password)))
             db.commit()
+            print("[seed] admin created")
+        else:
+            print("[seed] admin exists")
+    except Exception as e:
+        print(f"[seed] ERROR: {e}")
     finally:
         db.close()
 
 
 _seed_admin()
+
+
+@app.post("/api/debug/reseed")
+def reseed():
+    _seed_admin()
+    return {"ok": True}
 
 
 @app.get("/")
