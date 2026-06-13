@@ -9,6 +9,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+from sqlalchemy import text as sql_text
+try:
+    with engine.connect() as _conn:
+        _conn.execute(sql_text("ALTER TYPE questiontype ADD VALUE IF NOT EXISTS 'ratio'"))
+        _conn.commit()
+except Exception:
+    pass
+
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="סקרים - איגוד מנהלי אגפי החינוך")

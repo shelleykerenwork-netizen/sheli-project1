@@ -73,6 +73,27 @@ def get_analytics(
                         q_data["avg"] = round(sum(nums) / len(nums), 2)
                 except (ValueError, TypeError):
                     pass
+        elif question.question_type == "ratio":
+            pairs = []
+            for v in answer_values:
+                parts = str(v).split("/")
+                if len(parts) == 2:
+                    try:
+                        num = float(parts[0])
+                        denom = float(parts[1])
+                        if denom > 0:
+                            pairs.append({"num": num, "denom": denom, "pct": round(num / denom * 100, 1)})
+                    except (ValueError, TypeError):
+                        pass
+            if pairs:
+                pcts = [p["pct"] for p in pairs]
+                nums = [p["num"] for p in pairs]
+                denoms = [p["denom"] for p in pairs]
+                q_data["avg_pct"] = round(sum(pcts) / len(pcts), 1)
+                q_data["min_pct"] = round(min(pcts), 1)
+                q_data["max_pct"] = round(max(pcts), 1)
+                q_data["avg_num"] = round(sum(nums) / len(nums), 1)
+                q_data["avg_denom"] = round(sum(denoms) / len(denoms), 1)
         elif question.question_type == "text":
             q_data["text_answers"] = answer_values
 

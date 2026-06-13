@@ -1,4 +1,4 @@
-export type QuestionType = "text" | "number" | "single_choice" | "multiple_choice" | "rating" | "yes_no";
+export type QuestionType = "text" | "number" | "single_choice" | "multiple_choice" | "rating" | "yes_no" | "ratio";
 
 export interface QuestionOption { id?: number; text: string; order: number; }
 

@@ -6,6 +6,7 @@ import type { Question, QuestionType } from "../types";
 const TYPE_LABELS: Record<QuestionType, string> = {
   text: "טקסט חופשי", number: "מספר", single_choice: "בחירה יחידה",
   multiple_choice: "בחירה מרובה", rating: "דירוג (1-5)", yes_no: "כן / לא",
+  ratio: "מספר מתוך מספר (אחוזים)",
 };
 
 function emptyQuestion(order: number): Question {

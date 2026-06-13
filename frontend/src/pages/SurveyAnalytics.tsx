@@ -13,6 +13,8 @@ interface QuestionData {
   distribution?: { label: string; count: number }[];
   avg?: number; min?: number; max?: number; values?: number[];
   text_answers?: string[];
+  avg_pct?: number; min_pct?: number; max_pct?: number;
+  avg_num?: number; avg_denom?: number;
 }
 
 interface Analytics {
@@ -162,6 +164,32 @@ export default function SurveyAnalytics() {
                 </>
               )}
 
+              {q.avg_pct !== undefined && (
+                <>
+                  <div style={s.statsRow}>
+                    <div style={s.stat}>
+                      <span style={{ ...s.statVal, color: "#4a90d9" }}>{q.avg_pct}%</span>
+                      <span style={s.statLbl}>ממוצע אחוזים</span>
+                    </div>
+                    <div style={s.stat}>
+                      <span style={s.statVal}>{q.min_pct}%</span>
+                      <span style={s.statLbl}>מינימום</span>
+                    </div>
+                    <div style={s.stat}>
+                      <span style={s.statVal}>{q.max_pct}%</span>
+                      <span style={s.statLbl}>מקסימום</span>
+                    </div>
+                  </div>
+                  <div style={s.ratioBar}>
+                    <div style={{ ...s.ratioFill, width: `${Math.min(q.avg_pct, 100)}%` }} />
+                    <span style={s.ratioLabel}>{q.avg_pct}%</span>
+                  </div>
+                  <p style={{ color: "#888", fontSize: "0.8rem", margin: "0.5rem 0 0", textAlign: "center" }}>
+                    ממוצע: {q.avg_num} מתוך {q.avg_denom}
+                  </p>
+                </>
+              )}
+
               {q.text_answers && q.text_answers.length > 0 && (
                 <ul style={s.textList}>
                   {q.text_answers.map((t, i) => <li key={i} style={s.textItem}>{t}</li>)}
@@ -204,4 +232,7 @@ const s: Record<string, React.CSSProperties> = {
   pctBar: { height: "100%", borderRadius: "5px", transition: "width 0.3s" },
   pctNum: { width: "36px", textAlign: "left" as const, fontWeight: 700, color: "#1e3a5f", flexShrink: 0 },
   pctCount: { width: "32px", color: "#999", flexShrink: 0 },
+  ratioBar: { position: "relative" as const, height: "22px", background: "#edf2f7", borderRadius: "11px", overflow: "hidden", marginTop: "0.75rem" },
+  ratioFill: { height: "100%", background: "linear-gradient(90deg,#4a90d9,#50c878)", borderRadius: "11px", transition: "width 0.4s" },
+  ratioLabel: { position: "absolute" as const, top: "50%", left: "50%", transform: "translate(-50%,-50%)", fontWeight: 700, fontSize: "0.82rem", color: "#1e3a5f" },
 };

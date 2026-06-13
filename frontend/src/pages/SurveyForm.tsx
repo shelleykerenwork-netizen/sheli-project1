@@ -86,6 +86,23 @@ export default function SurveyForm() {
             <div key={q.id} style={s.qBlock}>
               <p style={s.qText}>{i + 1}. {q.text}{q.required && <span style={{ color: "#e53e3e" }}> *</span>}</p>
 
+              {q.question_type === "ratio" && (
+                <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
+                  <input type="number" min="0" style={{ ...s.input, width: "90px" }} placeholder="כמה"
+                    value={answers[q.id!]?.split("/")[0] || ""}
+                    onChange={e => {
+                      const denom = answers[q.id!]?.split("/")[1] || "";
+                      setAnswer(q.id!, `${e.target.value}/${denom}`);
+                    }} />
+                  <span style={{ fontWeight: 600, color: "#444" }}>מתוך</span>
+                  <input type="number" min="1" style={{ ...s.input, width: "90px" }} placeholder="סך הכל"
+                    value={answers[q.id!]?.split("/")[1] || ""}
+                    onChange={e => {
+                      const num = answers[q.id!]?.split("/")[0] || "";
+                      setAnswer(q.id!, `${num}/${e.target.value}`);
+                    }} />
+                </div>
+              )}
               {q.question_type === "text" && (
                 <textarea style={{ ...s.input, minHeight: "80px" }} value={answers[q.id!] || ""} onChange={e => setAnswer(q.id!, e.target.value)} />
               )}

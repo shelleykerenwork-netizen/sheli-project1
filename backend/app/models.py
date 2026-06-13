@@ -12,6 +12,7 @@ class QuestionType(str, enum.Enum):
     multiple_choice = "multiple_choice"
     rating = "rating"
     yes_no = "yes_no"
+    ratio = "ratio"
 
 
 class User(Base):
