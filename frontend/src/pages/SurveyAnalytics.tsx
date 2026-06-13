@@ -89,10 +89,12 @@ export default function SurveyAnalytics() {
                   {q.distribution.length <= 5 ? (
                     <ResponsiveContainer width="100%" height={180}>
                       <PieChart>
-                        <Pie data={q.distribution.map(d => ({ name: d.label, value: d.count }))} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={70} label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}>
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                        <Pie data={q.distribution.map(d => ({ name: d.label, value: d.count }))} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={70} label={({ name, percent }: any) => `${name ?? ""}: ${((percent ?? 0) * 100).toFixed(0)}%`}>
                           {q.distribution.map((_, i) => <Cell key={i} fill={COLORS[i % COLORS.length]} />)}
                         </Pie>
-                        <Tooltip formatter={(value: number) => [`${value} (${q.total_answers > 0 ? Math.round(value / q.total_answers * 100) : 0}%)`, "תשובות"]} />
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                        <Tooltip formatter={(value: any) => [`${value} (${q.total_answers > 0 ? Math.round(Number(value) / q.total_answers * 100) : 0}%)`, "תשובות"]} />
                       </PieChart>
                     </ResponsiveContainer>
                   ) : (
@@ -100,7 +102,8 @@ export default function SurveyAnalytics() {
                       <BarChart data={q.distribution.map(d => ({ name: d.label, count: d.count, pct: q.total_answers > 0 ? Math.round(d.count / q.total_answers * 100) : 0 }))}>
                         <XAxis dataKey="name" tick={{ fontSize: 11 }} />
                         <YAxis allowDecimals={false} />
-                        <Tooltip formatter={(value: number, _name: string, props: { payload?: { pct?: number } }) => [`${value} (${props.payload?.pct ?? 0}%)`, "תשובות"]} />
+                        {/* eslint-disable-next-line @typescript-eslint/no-explicit-any */}
+                        <Tooltip formatter={(value: any, _name: any, props: any) => [`${value} (${props?.payload?.pct ?? 0}%)`, "תשובות"]} />
                         <Bar dataKey="count" fill="#4a90d9" />
                       </BarChart>
                     </ResponsiveContainer>
