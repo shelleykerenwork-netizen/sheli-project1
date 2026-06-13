@@ -51,8 +51,27 @@ _seed_admin()
 
 @app.get("/api/debug/reseed")
 def reseed():
-    _seed_admin()
-    return {"ok": True}
+    db = SessionLocal()
+    diagnostics = {
+        "ADMIN_EMAIL_set": bool(os.getenv("ADMIN_EMAIL")),
+        "DATABASE_URL_set": bool(os.getenv("DATABASE_URL")),
+        "db_url_prefix": os.getenv("DATABASE_URL", "sqlite")[:12],
+    }
+    try:
+        email = "shelleykeren@gmail.com"
+        existing = db.query(models.User).filter(models.User.email == email).first()
+        if existing:
+            existing.hashed_password = hash_password("changeme123")
+            db.commit()
+            return {"ok": True, "action": "updated", "diagnostics": diagnostics}
+        else:
+            db.add(models.User(email=email, hashed_password=hash_password("changeme123"), is_active=True))
+            db.commit()
+            return {"ok": True, "action": "created", "diagnostics": diagnostics}
+    except Exception as e:
+        return {"ok": False, "error": str(e), "diagnostics": diagnostics}
+    finally:
+        db.close()
 
 
 @app.get("/")
