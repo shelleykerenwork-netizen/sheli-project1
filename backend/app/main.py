@@ -49,7 +49,7 @@ def _seed_admin():
 _seed_admin()
 
 
-@app.post("/api/debug/reseed")
+@app.get("/api/debug/reseed")
 def reseed():
     _seed_admin()
     return {"ok": True}
